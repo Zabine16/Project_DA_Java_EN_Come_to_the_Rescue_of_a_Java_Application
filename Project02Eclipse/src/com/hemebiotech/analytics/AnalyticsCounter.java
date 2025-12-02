@@ -2,41 +2,41 @@ package com.hemebiotech.analytics;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;
-	private static int rashCount = 0;
-	private static int pupilCount = 0;
-	
-	public static void main(String args[]) throws Exception {
+    private static int headacheCount = 0;
+    private static int rashCount = 0;
+    private static int pupilCount = 0;
 
-		BufferedReader reader = new BufferedReader (new FileReader("Project02Eclipse/src/com/hemebiotech/analytics/symptoms.txt"));
-		String line = reader.readLine();
+    public static void main(String args[]) throws Exception {
 
-		int i = 0;
-		int headCount = 0;
-		while (line != null) {
-			i++;
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
+        BufferedReader reader = new BufferedReader(new FileReader("Project02Eclipse/src/com/hemebiotech/analytics/symptoms.txt"));
+        String line = reader.readLine();
 
-			line = reader.readLine();
-		}
+        int headCount = 0;
+        while (line != null) {
+            System.out.println("symptom from file: " + line);
+            if (line.equals("headache")) {
+                headCount++;
+                System.out.println("number of headaches: " + headCount);
+            } else if (line.equals("rash")) {
+                rashCount++;
+            } else if (line.contains("pupils")) {
+                pupilCount++;
+            }
 
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
-	}
+            line = reader.readLine();
+        }
+        reader.close();
+
+        ISymptomWriter writer = new WriteSymptomDataToFile();
+        Map<String, Integer> symptoms = new HashMap<>();
+        symptoms.put("headache", headCount);
+        symptoms.put("rash", rashCount);
+        symptoms.put("dialated pupils", pupilCount);
+
+        writer.writeSymptoms(symptoms);
+    }
 }
