@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+
+    /**
+     * Main application entry point.
+     */
     public static void main(String args[]) throws Exception {
 
         ISymptomWriter writer = new WriteSymptomDataToFile();
